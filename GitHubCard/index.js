@@ -11,11 +11,69 @@
 
     Skip to STEP 3.
 */
+const khwanchaiGit = document.querySelector('.cards')
+function khwanchaiCard(gitId){
+  const firstDivCard = document.createElement('div')
+  firstDivCard.classList.add('card')
+
+  const imageCard = document.createElement('img')
+  firstDivCard.appendChild(imageCard)
+
+  const seConddiv = document.createElement('div')
+  seConddiv.classList.add('card-info')
+
+  const seCondH3 = document.createElement('h3')
+  seCondH3.classList.add('name')
+  const seCondA = document.createElement('a')
+
+  const seCondP1 = document.createElement('p')
+  seCondP1.classList.add('username')
+
+  const seCondP2 = document.createElement('p')
+  const seCondP3 = document.createElement('p')
+  const seCondP4 = document.createElement('p')
+  const seCondP5 = document.createElement('p')
+  const seCondP6 = document.createElement('p')
+ 
+    
+  firstDivCard.appendChild(seConddiv)
+  seConddiv.appendChild(seCondH3)
+  seConddiv.appendChild(seCondP1)
+  seConddiv.appendChild(seCondP2)
+  seConddiv.appendChild(seCondP3)
+  seCondP3.appendChild(seCondA)
+  seConddiv.appendChild(seCondP4)
+  seConddiv.appendChild(seCondP5)
+  seConddiv.appendChild(seCondP6) 
+
+  imageCard.src = gitId.avatar_url
+  seCondH3.textContent = gitId.login
+  seCondP1.textContent = gitId.name
+  seCondP2.textContent = `Location: ${gitId.location}`
+  seCondP3.textContent = `Profile: ` + gitId.html_url
+  seCondA.href = gitId.html_url
+  seCondA.textContent = `${gitId.html_url}`
+  seCondP4.textContent = `Followers: ${gitId.followers}`
+  seCondP5.textContent = `Following: ${gitId.following}`
+  seCondP6.textContent = `Bio: ${gitId.bio}`
+
+  return firstDivCard
+}
+axios.get('https://api.github.com/users/khwanchaiwill')
 
 /*
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+.then( (response) =>{
+  console.log('This is the good path keep going', response.data)
+    
+    khwanchaiGit.appendChild(khwanchaiCard(response.data))
+  
+})
+.catch((error) => {
+  console.log('This is make me headache error',error)
+})
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -28,7 +86,33 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  "javavick-Lambda",
+  "mrsimpson3000",
+  "rabithole",
+  "rmurdoc90",
+  "NicoleYOsborn"
+];
+
+function getFollowers(followers){
+axios.get(`https://api.github.com/users/${followers}`)
+.then( res => {
+console.log('We will see the data here', res.data)
+  const followCard = khwanchaiCard(res)
+  khwanchaiGit.appendChild(followCard)
+})
+.catch(err =>{
+console.log('hold on this is not right', err)
+})
+}
+  followersArray.forEach((item) =>{
+  getFollowers(item);
+
+})
+// followersArray.forEach((item) => {
+//   const firstDivCard = getFollowers(item)
+//   khwanchaiGit.prepend(khwanchaiCard(firstDivCard))
+// })
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
