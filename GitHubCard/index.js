@@ -98,7 +98,7 @@ function getFollowers(followers){
 axios.get(`https://api.github.com/users/${followers}`)
 .then( res => {
 console.log('We will see the data here', res.data)
-  const followCard = khwanchaiCard(res)
+  const followCard = khwanchaiCard(res.data)
   khwanchaiGit.appendChild(followCard)
 })
 .catch(err =>{
